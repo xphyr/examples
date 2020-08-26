@@ -19,7 +19,13 @@ spec:
     spec:
       containers:
       - name: redis-master
-        image: redis:2.8.23
+        image: redis
+        volumeMounts:
+          - mountPath: /data
+            name: data-volume
         ports:
         - name: redis-server
           containerPort: 6379
+      volumes:
+        - name: data-volume
+          emptyDir: {}

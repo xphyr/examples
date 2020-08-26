@@ -19,7 +19,15 @@ spec:
     spec:
       containers:
       - name: redis-slave
-        image: k8s.gcr.io/redis-slave:v2
+        image: redis
+        command: ["redis-server"]
+        args: ["--slaveof", "redis-master", "6379"]
+        volumeMounts:
+          - mountPath: /data
+            name: data-volume
         ports:
         - name: redis-server
           containerPort: 6379
+      volumes:
+        - name: data-volume
+          emptyDir: {}
