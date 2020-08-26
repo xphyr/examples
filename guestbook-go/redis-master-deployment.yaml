@@ -1,27 +1,26 @@
 ---
-kind: ReplicationController
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: redis-slave
+  name: redis-master
   labels:
     app: redis
-    role: slave
+    role: master
 spec:
-  replicas: 2
+  replicas: 1
   selector:
-    app: redis
-    role: slave
+    matchLabels:
+      app: redis
+      role: master
   template:
     metadata:
       labels:
         app: redis
-        role: slave
+        role: master
     spec:
       containers:
-      - name: redis-slave
+      - name: redis-master
         image: redis
-        command: ["redis-server"]
-        args: ["--slaveof", "redis-master", "6379"]
         volumeMounts:
           - mountPath: /data
             name: data-volume
